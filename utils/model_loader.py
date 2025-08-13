@@ -37,11 +37,11 @@ class ModelLoader:
         try:
             log.info("Loading Google Generative AI embeddings...")
             model_name= self.config["embedding_model"]["model_name"]
-            return GoogleGenerativeAIEmbeddings(model= model_name)
+            return GoogleGenerativeAIEmbeddings(model= model_name, )
         except Exception as e:
             log.error("Failed to load Google Generative AI embeddings: {}".format(e))
             raise CustomException("Fail to load embedding model", sys)
-    def load_llm(self, model_name= "groq"):
+    def load_llm(self, model_name= "google"):
         """
         Loads LMM models
         :return:

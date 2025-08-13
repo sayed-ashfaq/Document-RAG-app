@@ -106,8 +106,8 @@ from pathlib import Path
 
 # from notebook.experiments import session_id
 # from notebook.experiments import retriever
-from src.multi_document_chat.data_ingestion import DocumentIngestor
-from src.multi_document_chat.retrieval import ConversationalRAG
+from archive.src.multi_document_chat.data_ingestion import DocumentIngestor
+from archive.src.multi_document_chat.retrieval import ConversationalRAG
 
 
 
@@ -118,7 +118,7 @@ def test_document_ingestion_and_rag():
     try:
         test_files= [
             "C:\\Users\\302sy\\Desktop\\LLMOps.pdf",
-            "C:\\Users\\302sy\\Desktop\\GenerativeAI\\RAG_ETE\\data\\single_document_chat\\NIPS - 2017 - attention - is -all - you - need - Paper.pdf",
+            "C:\\Users\\302sy\\Desktop\\Generative AI\\RAG_ETE\\data\\single_document_chat\\NIPS-2017-attention-is-all-you-need-Paper.pdf",
             "S:\\Reading\\AVIATION\\TIMEMANAGEMENT-210130-161657.pdf",
             "S:\\Reading\\AVIATION\\Airlinesname-210130-161441.pdf"
         ]
