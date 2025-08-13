@@ -11,7 +11,7 @@ from utils.model_loader import ModelLoader
 
 class DocumentIngestor:
     SUPPORTED_EXTENSIONS= (".pdf", ".docx", ".txt", ".doc", ".md")
-    def __init__(self, temp_dir:str = "data/multi_document_chat", faiss_dir: str= "faiss_index", session_id :str | None = 'something'):
+    def __init__(self, temp_dir:str = "data/multi_document_chat", faiss_dir: str= "faiss_index", session_id :str | None = 'faiss_dir'):
         self.log= CustomLogger().get_logger(__name__)
         try:
             self.temp_dir = Path(temp_dir)

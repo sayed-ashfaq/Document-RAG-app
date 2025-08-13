@@ -25,12 +25,12 @@
 #         print("Starting PDF ingestion...")
 #         dummy_pdf= DummyFile(pdf_path)
 #
-#         handler= DocumentHandler(session_id="Testing ingestino")
+#         handler= DocumentHandler(session_id="Testing ingestion")
 #         saved_path= handler.save_pdf(dummy_pdf)
 #         print(f"PDF ingestion saved to {saved_path}")
 #
 #         text_content= handler.read_pdf(saved_path)
-#         print(f"Extracted text lenght: {len(text_content)} chars/n")
+#         print(f"Extracted text length: {len(text_content)} chars/n")
 #
 #         # -----------data analysis-------
 #         print("Starting metadata analysis....")
@@ -72,7 +72,7 @@
 #             vectorstore= FAISS.load_local(folder_path= str(FAISS_INDEX_PATH), embeddings= embeddings, allow_dangerous_deserialization=True)
 #             retriever= vectorstore.as_retriever(search_type= "similarity", search_kwargs={"k": 5})
 #         else:
-#             # Step 2: Ingest document and create retreiver
+#             # Step 2: Ingest document and create retriever
 #             print("FAISS index not found, ingesting pdf and creating FAISS index...")
 #             with open(pdf_path, 'rb') as f:
 #                 upload_files= [f]
