@@ -1,0 +1,15 @@
+python-dotenv
+langchain
+langchain-community
+ipykernel
+pypdf
+langchain-google-genai
+langchain-groq
+faiss-cpu
+structlog
+PyMuPDF
+pandas
+streamlit
+langchain-core[tracing]
+pytest
+-e.
