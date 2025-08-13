@@ -12,4 +12,7 @@ pandas
 streamlit
 langchain-core[tracing]
 pytest
+fastapi
+uvicorn
+python-multipart
 -e.
