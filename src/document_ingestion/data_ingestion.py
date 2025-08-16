@@ -17,7 +17,7 @@ from langchain_community.vectorstores import FAISS
 
 from utils.model_loader import ModelLoader
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 
 from utils.file_io import _session_id, save_uploaded_files
 from utils.document_ops import load_documents, concat_for_analysis, concat_for_comparison
@@ -86,7 +86,7 @@ class FaissManager:
             )
             return self.vs
         if not texts:
-            raise CustomException("No existing FAISS index and no data to create one", sys)
+            raise DocumentPortalException("No existing FAISS index and no data to create one", sys)
 
         self.vs = FAISS.from_texts(texts=texts, embedding=self.emb, metadatas=metadatas or [])
         self.vs.save_local(str(self.index_dir))
@@ -122,7 +122,7 @@ class ChatIngestor:
                           sessionized=self.use_session)
         except Exception as e:
             self.log.error("Failed to initialize ChatIngestor", error=str(e))
-            raise CustomException("Initialization error in ChatIngestor", e) from e
+            raise DocumentPortalException("Initialization error in ChatIngestor", e) from e
 
     def _resolve_dir(self, base: Path):
         if self.use_session:
@@ -167,7 +167,7 @@ class ChatIngestor:
 
         except Exception as e:
             self.log.error("Failed to build retriever", error=str(e))
-            raise CustomException("Failed to build retriever", e) from e
+            raise DocumentPortalException("Failed to build retriever", e) from e
 
 
 class DocHandler:
@@ -199,7 +199,7 @@ class DocHandler:
             return save_path
         except Exception as e:
             self.log.error("Failed to save PDF", error=str(e), session_id=self.session_id)
-            raise CustomException(f"Failed to save PDF: {str(e)}", e) from e
+            raise DocumentPortalException(f"Failed to save PDF: {str(e)}", e) from e
 
     def read_pdf(self, pdf_path: str) -> str:
         try:
@@ -214,7 +214,7 @@ class DocHandler:
             return text
         except Exception as e:
             self.log.error("Failed to read PDF", error=str(e), pdf_path=pdf_path, session_id=self.session_id)
-            raise CustomException(f"Could not process PDF: {pdf_path}", e) from e
+            raise DocumentPortalException(f"Could not process PDF: {pdf_path}", e) from e
 
 
 class DocumentComparator:
@@ -246,7 +246,7 @@ class DocumentComparator:
             return ref_path, act_path
         except Exception as e:
             self.log.error("Error saving PDF files", error=str(e), session=self.session_id)
-            raise CustomException("Error saving files", e) from e
+            raise DocumentPortalException("Error saving files", e) from e
 
     def read_pdf(self, pdf_path: Path) -> str:
         try:
@@ -263,7 +263,7 @@ class DocumentComparator:
             return "\n".join(parts)
         except Exception as e:
             self.log.error("Error reading PDF", file=str(pdf_path), error=str(e))
-            raise CustomException("Error reading PDF", e) from e
+            raise DocumentPortalException("Error reading PDF", e) from e
 
     def combine_documents(self) -> str:
         try:
@@ -277,7 +277,7 @@ class DocumentComparator:
             return combined_text
         except Exception as e:
             self.log.error("Error combining documents", error=str(e), session=self.session_id)
-            raise CustomException("Error combining documents", e) from e
+            raise DocumentPortalException("Error combining documents", e) from e
 
     def clean_old_sessions(self, keep_latest: int = 3):
         try:
@@ -287,4 +287,4 @@ class DocumentComparator:
                 self.log.info("Old session folder deleted", path=str(folder))
         except Exception as e:
             self.log.error("Error cleaning old sessions", error=str(e))
-            raise CustomException("Error cleaning old sessions", e) from e
+            raise DocumentPortalException("Error cleaning old sessions", e) from e

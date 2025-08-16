@@ -7,7 +7,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
 # from langchain_openai import ChatOpenAI
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 
 log = CustomLogger().get_logger(__name__)
 
@@ -27,7 +27,7 @@ class ModelLoader:
         missing = [k for k,v in self.api_key.items() if not v]
         if missing:
             log.error("Missing required environment variables: {}".format(missing))
-            raise CustomException("Missing required environment variables: {}".format(missing), sys)
+            raise DocumentPortalException("Missing required environment variables: {}".format(missing), sys)
         log.info("Environment variables validated", available_key= [k for k in self.api_key.keys() if self.api_key[k]])
     def load_embedding(self):
         """
@@ -37,11 +37,11 @@ class ModelLoader:
         try:
             log.info("Loading Google Generative AI embeddings...")
             model_name= self.config["embedding_model"]["model_name"]
-            return GoogleGenerativeAIEmbeddings(model= model_name)
+            return GoogleGenerativeAIEmbeddings(model= model_name, )
         except Exception as e:
             log.error("Failed to load Google Generative AI embeddings: {}".format(e))
-            raise CustomException("Fail to load embedding model", sys)
-    def load_llm(self, model_name= "groq"):
+            raise DocumentPortalException("Fail to load embedding model", sys)
+    def load_llm(self, model_name= "google"):
         """
         Loads LMM models
         :return:

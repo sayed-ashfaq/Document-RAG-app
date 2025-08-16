@@ -6,7 +6,7 @@ from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, Te
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 from utils.model_loader import ModelLoader
 
 class DocumentIngestor:
@@ -36,7 +36,7 @@ class DocumentIngestor:
             )
         except Exception as e:
             self.log.error("Failed to initialize the document-ingestor class", e)
-            raise CustomException(f"Initialization error in Document Ingestion. {e}", sys)
+            raise DocumentPortalException(f"Initialization error in Document Ingestion. {e}", sys)
     def ingest_files(self, uploaded_files):
         try:
             documents = []
@@ -65,14 +65,14 @@ class DocumentIngestor:
                 documents.extend(docs)
 
             if not documents:
-                raise CustomException("No valid documents found", sys)
+                raise DocumentPortalException("No valid documents found", sys)
 
             self.log.info("All documents loaded", total_docs= len(documents), session_id= self.session_id)
 
             return self._create_retriever(documents)
         except Exception as e:
             self.log.error("Failed to ingest files")
-            raise CustomException(f"Failed while ingesting files. {e}", sys)
+            raise DocumentPortalException(f"Failed while ingesting files. {e}", sys)
 
     def _create_retriever(self, documents):
         try:
@@ -93,4 +93,4 @@ class DocumentIngestor:
 
         except Exception as e:
             self.log.error("Failed to create retriever")
-            raise CustomException(f"Failed while creating retriever. {e}", sys)
+            raise DocumentPortalException(f"Failed while creating retriever. {e}", sys)
