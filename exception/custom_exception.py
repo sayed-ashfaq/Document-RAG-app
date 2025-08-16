@@ -115,7 +115,7 @@ class DocumentPortalException(Exception):
 
 
 if __name__ == "__main__":
-    # Demo Usage
+    # Demo Usage - Simulating Failure
     try:
         a = int("Str")  # This will fail
     except Exception as e:
