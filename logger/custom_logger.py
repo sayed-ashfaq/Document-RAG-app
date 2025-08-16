@@ -16,10 +16,6 @@ class CustomLogger:
         logs_dir (str): Directory where log files will be stored.
         log_file_path (str): Full path of the log file for this session.
 
-    Example:
-        >>> logger = CustomLogger().get_logger(__file__)
-        >>> logger.info("user uploaded a file", user_id=123, filename="report.pdf")
-        >>> logger.error("failed to process PDF", error="File not found", user_id=456)
     """
 
     def __init__(self, log_dir="logs"):
