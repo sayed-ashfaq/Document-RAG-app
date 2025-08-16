@@ -10,7 +10,7 @@ from langchain.chains import create_history_aware_retriever, create_retrieval_ch
 import streamlit as st
 from utils.model_loader import ModelLoader
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 from prompts.prompt_library import PROMPT_REGISTRY
 from model.models import PromptType
 
@@ -48,7 +48,7 @@ class ConversationalRAG:
 
         except Exception as e:
             self.log.error("Failed to create conversational RAG", error= str(e))
-            raise CustomException("Failed to create conversational RAG", sys)
+            raise DocumentPortalException("Failed to create conversational RAG", sys)
 
 
     def _load_llm(self):
@@ -58,7 +58,7 @@ class ConversationalRAG:
             return llm
         except Exception as e:
             self.log.error("Failed to load llm", error= str(e))
-            raise CustomException("Failed to load llm", sys)
+            raise DocumentPortalException("Failed to load llm", sys)
 
     def _get_session_history(self, session_id:str)->BaseChatMessageHistory:
         try:
@@ -71,7 +71,7 @@ class ConversationalRAG:
             return st.session_state.store[session_id]
         except Exception as e:
             self.log.error("Failed to get session history", error= str(e))
-            raise CustomException("Failed to get session history", sys)
+            raise DocumentPortalException("Failed to get session history", sys)
 
     def load_retriever_from_faiss(self, index_path:str):
         try:
@@ -84,7 +84,7 @@ class ConversationalRAG:
             return vector_store.as_retriever(search_type= "similarity", search_kwargs= {"k":5})
         except Exception as e:
             self.log.error("Failed to load retriever from faiss", error= str(e))
-            raise CustomException("Failed to load retriever from faiss", sys)
+            raise DocumentPortalException("Failed to load retriever from faiss", sys)
 
     def invoke(self, user_input: str) -> str:
         try:
@@ -101,4 +101,4 @@ class ConversationalRAG:
             return answer
         except Exception as e:
             self.log.error("Failed to invoke Conversational RAG", error= str(e))
-            raise CustomException("Failed to invoke RAG chain", sys)
+            raise DocumentPortalException("Failed to invoke RAG chain", sys)

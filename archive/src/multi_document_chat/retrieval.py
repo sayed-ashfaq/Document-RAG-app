@@ -10,7 +10,7 @@ from langchain_community.vectorstores import FAISS
 
 from utils.model_loader import ModelLoader
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 from prompts.prompt_library import PROMPT_REGISTRY
 from model.models import PromptType
 from langchain_core.prompts import ChatPromptTemplate
@@ -36,7 +36,7 @@ class ConversationalRAG:
 
         except Exception as e:
             self.log.error("Failed to initialize contextualize_prompt", error= str(e))
-            raise CustomException("Failed to initialize contextualize_prompt", sys)
+            raise DocumentPortalException("Failed to initialize contextualize_prompt", sys)
 
     def load_retriever_from_faiss(self, index_path: str):
         """
@@ -58,7 +58,7 @@ class ConversationalRAG:
             return self.retriever
         except Exception as e:
             self.log.error("Failed to load retriever from faiss", error= str(e))
-            raise CustomException("Failed to load retriever from faiss", sys)
+            raise DocumentPortalException("Failed to load retriever from faiss", sys)
 
     def invoke(self, user_input: str, chat_history: Optional[List[BaseMessage]]= None) -> str:
         """
@@ -83,7 +83,7 @@ class ConversationalRAG:
 
         except Exception as e:
             self.log.error("Failed to invoke retriever", error= str(e))
-            raise CustomException("Failed to invoke retriever", sys)
+            raise DocumentPortalException("Failed to invoke retriever", sys)
 
     def _load_llm(self):
         try:
@@ -93,7 +93,7 @@ class ConversationalRAG:
             return llm
         except Exception as e:
             self.log.error('Failed to load LLM', error= str(e))
-            raise CustomException("Failed to load LLM", sys)
+            raise DocumentPortalException("Failed to load LLM", sys)
 
     @staticmethod
     def _format_docs(docs):
@@ -131,5 +131,5 @@ class ConversationalRAG:
             self.log.info("chain has been built", session_id= self.session_id)
         except Exception as e:
             self.log.error("Failed to build LCEL chain", error= str(e))
-            raise CustomException("Failed to build LCEL chain", sys)
+            raise DocumentPortalException("Failed to build LCEL chain", sys)
 

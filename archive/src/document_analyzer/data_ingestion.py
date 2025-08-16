@@ -3,7 +3,7 @@ import fitz #wrapper on pypdf loader
 import uuid # creating universal id
 from datetime import datetime
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 
 
 class DocumentHandler:
@@ -30,14 +30,14 @@ class DocumentHandler:
 
         except Exception as e:
             self.log.error(f"Error initializing DocumentHandler: {e}")
-            raise CustomException("Error initializing DocumentHandler", e) from e
+            raise DocumentPortalException("Error initializing DocumentHandler", e) from e
 
     def save_pdf(self, uploaded_file):
         try:
             filename = os.path.basename(uploaded_file.name)
 
             if not filename.lower().endswith(".pdf"):
-                raise CustomException("Invalid file type. Only PDFs are allowed.")
+                raise DocumentPortalException("Invalid file type. Only PDFs are allowed.")
 
             save_path = os.path.join(self.session_path, filename)
 
@@ -50,7 +50,7 @@ class DocumentHandler:
 
         except Exception as e:
             self.log.error(f"Error saving PDF: {e}")
-            raise CustomException("Error saving PDF", e) from e
+            raise DocumentPortalException("Error saving PDF", e) from e
 
     def read_pdf(self, pdf_path: str) -> str:
         try:
@@ -65,7 +65,7 @@ class DocumentHandler:
             return text
         except Exception as e:
             self.log.error(f"Error reading PDF: {e}")
-            raise CustomException("Error reading PDF", e) from e
+            raise DocumentPortalException("Error reading PDF", e) from e
 
 
 

@@ -2,7 +2,7 @@ import os
 import sys
 from utils.model_loader import ModelLoader
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 from model.models import *
 from langchain_core.output_parsers import JsonOutputParser
 from langchain.output_parsers import OutputFixingParser
@@ -33,7 +33,7 @@ class DocumentAnalyzer:
 
         except Exception as e:
             self.log.error(f"Error initializing DocumentAnalyzer: {e}")
-            raise CustomException("Error in DocumentAnalyzer initialization", sys)
+            raise DocumentPortalException("Error in DocumentAnalyzer initialization", sys)
 
     def analyze_document(self, document_text: str) -> dict:
         """
@@ -55,5 +55,5 @@ class DocumentAnalyzer:
 
         except Exception as e:
             self.log.error("Metadata analysis failed", error=str(e))
-            raise CustomException("Metadata extraction failed") from e
+            raise DocumentPortalException("Metadata extraction failed") from e
 

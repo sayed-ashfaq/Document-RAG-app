@@ -2,7 +2,7 @@ import sys
 from dotenv import load_dotenv
 import pandas as pd
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 from model.models import *
 from prompts.prompt_library import PROMPT_REGISTRY
 from utils.model_loader import ModelLoader
@@ -39,7 +39,7 @@ class DocumentComparatorLLM:
             return self._format_response(response)
         except Exception as e:
             self.log.error(f"Error in compare documents: {e}")
-            raise CustomException("Error in compare documents:", sys)
+            raise DocumentPortalException("Error in compare documents:", sys)
 
 
     def _format_response(self, response_parsed: list[dict]) -> pd.DataFrame: #underscore mean it's private not for public used in init
@@ -53,4 +53,4 @@ class DocumentComparatorLLM:
             return df
         except Exception as e:
             self.log.error(f"Error in format response: {e}")
-            raise CustomException("Error in format response:", sys)
+            raise DocumentPortalException("Error in format response:", sys)

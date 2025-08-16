@@ -5,7 +5,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 from utils.model_loader import ModelLoader
 from datetime import datetime
 
@@ -22,7 +22,7 @@ class SingleDocIngestor:
             self.log.info("Model Initialization Completed", temp_path= str(self.data_dir), faiss_path= str(self.faiss_dir))
         except Exception as e:
             self.log.error("Failed to initialize the Single doc Ingestor", error= str(e))
-            raise CustomException("Failed to initialize the Single doc Ingestor", sys)
+            raise DocumentPortalException("Failed to initialize the Single doc Ingestor", sys)
 
 
     def ingest_files(self, uploaded_files: list):
@@ -43,7 +43,7 @@ class SingleDocIngestor:
             return self._create_retriever(document)
         except Exception as e:
             self.log.error("Failed to create retriever", error= str(e))
-            raise CustomException("Failed to create retriever", sys)
+            raise DocumentPortalException("Failed to create retriever", sys)
 
     def _create_retriever(self, docs: list):
         try:
@@ -63,7 +63,7 @@ class SingleDocIngestor:
 
         except Exception as e:
             self.log.error("Failed to create retriever", error= str(e))
-            raise CustomException("Failed to create retriever", sys)
+            raise DocumentPortalException("Failed to create retriever", sys)
 
 
 

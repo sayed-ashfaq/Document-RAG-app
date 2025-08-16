@@ -17,7 +17,7 @@ from langchain_community.vectorstores import FAISS
 
 from utils.model_loader import ModelLoader
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 
 log = CustomLogger().get_logger(__name__)
 
@@ -43,7 +43,7 @@ def load_documents(paths: Iterable[Path]) -> List[Document]:
         return docs
     except Exception as e:
         log.error("Failed loading documents", error=str(e))
-        raise CustomException("Error loading documents", e) from e
+        raise DocumentPortalException("Error loading documents", e) from e
 
 def concat_for_analysis(docs: List[Document]) -> str:
     parts = []

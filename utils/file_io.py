@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from typing import Iterable, List, Optional, Dict, Any
 from utils.model_loader import ModelLoader
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 log = CustomLogger().get_logger(__name__)
 SUPPORTED_EXTENSIONS = {".pdf", ".docx", ".txt"}
 
@@ -43,4 +43,4 @@ def save_uploaded_files(uploaded_files: Iterable, target_dir: Path) -> List[Path
         return saved
     except Exception as e:
         log.error("Failed to save uploaded files", error=str(e), dir=str(target_dir))
-        raise CustomException("Failed to save uploaded files", e) from e
+        raise DocumentPortalException("Failed to save uploaded files", e) from e

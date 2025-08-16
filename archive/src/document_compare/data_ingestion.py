@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 import fitz # manipulate the pdf part of PyMuPDF
 from logger.custom_logger import CustomLogger
-from exception.custom_exception import CustomException
+from exception.custom_exception_archive import DocumentPortalException
 from datetime import datetime
 import uuid
 
@@ -52,7 +52,7 @@ class DocumentComparator:
 
         except Exception as e:
             self.log.error("Error saving uploaded files: {}".format(e))
-            raise CustomException("Error occurred while saving the pdf", sys)
+            raise DocumentPortalException("Error occurred while saving the pdf", sys)
 
     def read_pdf(self, pdf_path: Path) -> str:
         """Read PDF file and extract text from each page"""
@@ -71,7 +71,7 @@ class DocumentComparator:
 
         except Exception as e:
             self.log.error("Error reading PDF file: {}".format(e))
-            raise CustomException("Error reading PDF file", sys)
+            raise DocumentPortalException("Error reading PDF file", sys)
 
     def combine_documents(self)-> str:
 
@@ -86,7 +86,7 @@ class DocumentComparator:
             return combined_text
         except Exception as e:
             self.log.error("Error combining documents: {}".format(e))
-            raise CustomException("Error while combining the documents", sys)
+            raise DocumentPortalException("Error while combining the documents", sys)
 
     def clean_old_sessions(self, keep_latest: int= 3):
         try:
@@ -102,4 +102,4 @@ class DocumentComparator:
 
         except Exception as e:
             self.log.error("Error cleaning old sessions: {}".format(e))
-            raise CustomException("Error cleaning old sessions", sys)
+            raise DocumentPortalException("Error cleaning old sessions", sys)
