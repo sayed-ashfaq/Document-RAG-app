@@ -80,7 +80,7 @@ class DocumentIngestor:
             chunks= splitter.split_documents(documents)
             self.log.info("Documents split into chunks", total_chunks= len(chunks), session_id= self.session_id)
 
-            embeddings= self.model_loader.load_embedding()
+            embeddings= self.model_loader.load_embeddings()
             vectorstore= FAISS.from_documents(documents= chunks, embedding=embeddings)
 
             vectorstore.save_local(str(self.session_faiss_dir))

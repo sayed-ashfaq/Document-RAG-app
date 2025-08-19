@@ -56,7 +56,7 @@ with tab2:
 
             # Load existing FAISS index or create a new one
             if FAISS_INDEX_PATH.exists():
-                embeddings = model_loader.load_embedding()
+                embeddings = model_loader.load_embeddings()
                 vectorstore = FAISS.load_local(
                     folder_path=str(FAISS_INDEX_PATH),
                     embeddings=embeddings,

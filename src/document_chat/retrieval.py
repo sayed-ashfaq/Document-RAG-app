@@ -83,7 +83,7 @@ class ConversationalRAG:
             raise DocumentPortalException("Error initializing ConversationalRAG", sys)
 
     # ----------------Public API----------------------#
-    def load_retriever_from_fails(
+    def load_retriever_from_faiss(
             self,
             index_path: str,
             k: int = 5,
@@ -112,10 +112,10 @@ class ConversationalRAG:
             if not os.path.isdir(index_path):
                 raise FileNotFoundError(f"FAISS index directory not found: {index_path}")
 
-            embeddings = ModelLoader().load_embedding()
+            embeddings = ModelLoader().load_embeddings()
             vectorstore = FAISS.load_local(
-                index_path=index_path,
-                embeddings=embeddings,
+                index_path,
+                embeddings,
                 index_name=index_name,
                 allow_dangerous_deserialization=True,
             )
@@ -166,7 +166,7 @@ class ConversationalRAG:
                 )
             chat_history = chat_history or []
             payload = {"input": user_input, "chat_history": chat_history}
-            answer = self.retriever.invoke(payload)
+            answer = self.chain.invoke(payload)
 
             if not answer:
                 self.log.warning(
@@ -238,7 +238,7 @@ class ConversationalRAG:
                     {'input': itemgetter("input"), "chat_history": itemgetter("chat_history")}
                     | self.contextualize_prompt
                     | self.llm
-                    | StrOutputParser
+                    | StrOutputParser()
             )
 
             # 2) Retrieve docs for rewritten question

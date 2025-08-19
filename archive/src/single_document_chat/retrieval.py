@@ -75,7 +75,7 @@ class ConversationalRAG:
 
     def load_retriever_from_faiss(self, index_path:str):
         try:
-            embeddings= ModelLoader().load_embedding()
+            embeddings= ModelLoader().load_embeddings()
             if not os.path.isdir(index_path):
                 raise FileNotFoundError(f"FAISS index directory not found: {index_path}")
 
