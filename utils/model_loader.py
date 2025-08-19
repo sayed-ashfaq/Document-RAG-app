@@ -27,7 +27,7 @@ class ModelLoader:
         """
         load_dotenv()  # load environment variables from .env file
         self._validate_env()
-        self.config = load_config(config_path="C:\\Users\\302sy\\Desktop\\Generative AI\\RAG_ETE\\config\\config.yaml")
+        self.config = load_config()
         log.info("Configuration loaded Successfully", config_keys=list(self.config.keys()))
 
     def _validate_env(self):
