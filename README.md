@@ -62,7 +62,101 @@ This application is built for **research, knowledge management, and enterprise w
 
 
 **Project Structure Overview:**
-![Project Structure](path/to/project_structure_image.png)
+```
+project-name/
+│
+├── .github/
+│   └── workflows/                  # GitHub Actions CI/CD workflows
+│       ├── aws.yml                 # AWS deployment workflow
+│       ├── task_definition.json    # ECS or container task definition
+│       └── template.yml            # Template for workflows
+│
+├── .idea/                          # PyCharm IDE config files (can be ignored in Git)
+│   └── ...
+│
+├── api/
+│   └── main.py                     # Main API entrypoint (FastAPI/Flask)
+│   └── ...                         # Other API endpoints, routers
+│
+├── archive/
+│   └── src/                        # Old or backup source code for reference
+│       └── ...
+│
+├── config/
+│   └── config.yaml                 # Core configuration settings
+│   └── ...                         # Additional config files (JSON/YAML)
+│
+├── data/
+│   ├── doc_analysis/               # Data for document analysis workflow
+│   ├── multidoc_chat/              # Data for multi-document chat workflow
+│   └── single_doc/                 # Data for single-document chat workflow
+│
+├── exception/
+│   ├── __init__.py                 # Makes folder a Python package
+│   └── Custom_exception.py         # Custom exception classes for robust error handling
+│
+├── faiss_index/
+│   ├── index.faiss                  # FAISS vector index for embeddings
+│   ├── index.pkl                    # Serialized FAISS object for fast loading
+│   └── ...                          # Any session or auxiliary files
+│
+├── logger/
+│   ├── __init__.py                 # Python package initializer
+│   └── custom_logger.py            # Logging utilities for debugging & monitoring
+│
+├── model/
+│   ├── __init__.py                 # Python package initializer
+│   └── models.py                   # Trained ML/DL models or model utilities
+│
+├── notebook/
+│   └── ...                         # Jupyter notebooks for experiments and testing
+│
+├── prompts/
+│   ├── __init__.py                 # Python package initializer
+│   └── prompts.py                  # Prompt templates and utilities for RAG pipelines
+│
+├── src/
+│   ├── document_analyzer/
+│   │   ├── __init__.py
+│   │   └── data_analysis.py        # Core logic for document analysis
+│   │
+│   ├── document_chat/
+│   │   ├── __init__.py
+│   │   └── retrieval.py            # Single & multi-document chat workflows
+│   │
+│   ├── documents_compare/
+│   │   ├── __init__.py
+│   │   └── document_comparator.py  # Logic to compare different versions of documents
+│   │
+│   └── document_ingestion/
+│       ├── __init__.py
+│       └── data_ingestion.py       # Parsing & preprocessing documents for RAG
+│
+├── static/
+│   └── style.css                   # Frontend CSS styling
+│               
+│
+├── templates/
+│   └── index.html                  # HTML templates for FastAPI/Flask or frontend rendering
+│
+├── utils/
+│   ├── __init__.py                 # Python package initializer
+│   ├── config_loaders.py           # Load and manage configuration files
+│   ├── document_ops.py             # Helper functions for document processing
+│   ├── file_io.py                  # File reading/writing utilities
+│   └── model_loader.py             # Load ML/DL models efficiently
+│
+├── .dockerignore                   # Docker ignore rules
+├── .gitattributes                  # Git attributes
+├── .gitignore                      # Git ignore rules
+├── Dockerfile                      # Docker container setup
+├── README.md                        # Project README (documentation)
+├── app.py                          # Main app entrypoint (Streamlit/FastAPI/Flask)
+├── requirements.txt                # Python dependencies
+├── setup.py                        # Package setup script
+└── test.py                          # Test scripts or Streamlit UI for quick prototyping
+
+```
 
 ---
 
