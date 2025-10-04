@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 
-from src.document_ingestion.data_pipeline import (
+from src.document_ingestion.data_ingestion import (
     DocHandler,
     DocumentComparator,
     ChatIngestor,
@@ -23,6 +23,7 @@ UPLOAD_BASE = os.getenv("UPLOAD_BASE", "data")
 FAISS_INDEX_NAME = os.getenv("FAISS_INDEX_NAME", "index")  # <--- keep consistent with save_local()
 
 app = FastAPI(title="Document Portal API", version="0.1")
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
