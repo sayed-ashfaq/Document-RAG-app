@@ -8,7 +8,7 @@
   "containerDefinitions": [
     {
       "name": "document-portal-container",
-      "image": "685057748560.dkr.ecr.us-east-1.amazonaws.com/documentportal:latest",
+      "image": "399016860398.dkr.ecr.eu-north-1.amazonaws.com/sayed_ashfaq/document_portal:777ffb1281c20c5bbb24bd0dabcf9c05cf3e424c",
       "cpu": 1024,
       "essential": true,
       "portMappings": [
