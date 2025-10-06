@@ -6,11 +6,51 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
 # from langchain_openai import ChatOpenAI
-from logger.custom_logger import CustomLogger
+from logger import GLOBAL_LOGGER as log
+import json
 from exception.custom_exception_archive import DocumentPortalException
 
-# create logger
-log = CustomLogger().get_logger(__name__)
+
+
+class ApiKeyManager:
+    REQUIRED_KEYS = ["GROQ_API_KEY", "GOOGLE_API_KEY"]
+
+    def __init__(self):
+        self.api_keys = {}
+        raw = os.getenv("API_KEYS")
+
+        if raw:
+            try:
+                parsed = json.loads(raw)
+                if not isinstance(parsed, dict):
+                    raise ValueError("API_KEYS is not a valid JSON object")
+                self.api_keys = parsed
+                log.info("Loaded API_KEYS from ECS secret")
+            except Exception as e:
+                log.warning("Failed to parse API_KEYS as JSON", error=str(e))
+
+        # Fallback to individual env vars
+        for key in self.REQUIRED_KEYS:
+            if not self.api_keys.get(key):
+                env_val = os.getenv(key)
+                if env_val:
+                    self.api_keys[key] = env_val
+                    log.info(f"Loaded {key} from individual env var")
+
+        # Final check
+        missing = [k for k in self.REQUIRED_KEYS if not self.api_keys.get(k)]
+        if missing:
+            log.error("Missing required API keys", missing_keys=missing)
+            raise DocumentPortalException("Missing API keys", sys)
+
+        log.info("API keys loaded", keys={k: v[:6] + "..." for k, v in self.api_keys.items()})
+
+
+    def get(self, key: str) -> str:
+        val = self.api_keys.get(key)
+        if not val:
+            raise KeyError(f"API key for {key} is missing")
+        return val
 
 class ModelLoader:
     """
@@ -25,7 +65,13 @@ class ModelLoader:
         - Validates required API keys
         - Loads configuration from `config.yaml`
         """
-        load_dotenv()  # load environment variables from .env file
+        if os.getenv("ENV", "local") != "production":
+            load_dotenv()  # load environment variables from .env file
+            log.info("Loading environment variables from .env")
+        else:
+            log.info("Running in PRODUCTION mode")
+
+        self.api_key_mgr = ApiKeyManager()
         self._validate_env()
         self.config = load_config()
         log.info("Configuration loaded Successfully", config_keys=list(self.config.keys()))
@@ -75,6 +121,7 @@ class ModelLoader:
         """
         # get config block for llm
         llm_block = self.config["llm"]
+        provider_key = os.getenv("LLM_PROVIDER", "google")
         log.info("Loading LMM models...")
 
         # check if provider is available in config.yaml
@@ -108,7 +155,7 @@ class ModelLoader:
             llm = ChatGoogleGenerativeAI(
                 model=model_name,
                 temperature=temperature,
-                google_api_key=self.api_key["GOOGLE_API_KEY"],
+                # google_api_key=self.api_key["GOOGLE_API_KEY"],
             )
             return llm
 

@@ -1,116 +1,47 @@
 {
-  "compatibilities": [
-    "EC2",
-    "FARGATE"
-  ],
+  "family": "documentportaltd",
+  "networkMode": "awsvpc",
+  "executionRoleArn": "arn:aws:iam::399016860398:role/ECStaskexecutioner",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "8192",
   "containerDefinitions": [
     {
-      "cpu": 1024,
-      "environment": [
-        {
-          "name": "LANGCHAIN_PROJECT",
-          "value": "DOCUMENT PORTAL"
-        }
-      ],
-      "environmentFiles": [],
-      "essential": true,
-      "image": "399016860398.dkr.ecr.eu-north-1.amazonaws.com/sayed_ashfaq/document_portal@sha256:103512e0915c283ada618168f8dacbdaa4cda69f92139446b514670229b67477",
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "/ecs/docragchatltd",
-          "mode": "non-blocking",
-          "awslogs-create-group": "true",
-          "max-buffer-size": "25m",
-          "awslogs-region": "eu-north-1",
-          "awslogs-stream-prefix": "ecs"
-        },
-        "secretOptions": []
-      },
-      "mountPoints": [],
       "name": "document-portal-container",
+      "image": "399016860398.dkr.ecr.eu-north-1.amazonaws.com/sayed_ashfaq/document_portal",
+      "cpu": 1024,
+      "essential": true,
       "portMappings": [
         {
-          "appProtocol": "http",
           "containerPort": 8080,
           "hostPort": 8080,
+          "protocol": "tcp",
           "name": "document-portal-container-8080-tcp",
-          "protocol": "tcp"
+          "appProtocol": "http"
+        }
+      ],
+      "environment": [
+        {
+          "name": "ENV",
+          "value": "production"
         }
       ],
       "secrets": [
         {
-          "name": "GROQ_API_KEY",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:685057748560:secret:GROQ_API_KEY"
-        },
-        {
-          "name": "GOOGLE_API_KEY",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:685057748560:secret:GOOGLE_API_KEY"
+          "name": "API_KEYS",
+          "valueFrom": "arn:aws:secretsmanager:eu-north-1:399016860398:secret:rag_ete_llmkeys-4xtK3E"
         }
+
       ],
-      "systemControls": [],
-      "ulimits": [],
-      "volumesFrom": []
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/documentportaltd",
+          "awslogs-region": "eu-north-1",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      }
     }
-  ],
-  "cpu": "1024",
-  "enableFaultInjection": false,
-  "executionRoleArn": "arn:aws:iam::399016860398:role/ECStaskexecutioner",
-  "family": "docragchatltd",
-  "memory": "3072",
-  "networkMode": "awsvpc",
-  "placementConstraints": [],
-  "registeredAt": "2025-10-05T14:31:25.843Z",
-  "registeredBy": "arn:aws:iam::399016860398:root",
-  "requiresAttributes": [
-    {
-      "name": "ecs.capability.execution-role-awslogs"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.ecr-auth"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.task-iam-role"
-    },
-    {
-      "name": "ecs.capability.execution-role-ecr-pull"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-    },
-    {
-      "name": "ecs.capability.task-eni"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
-    },
-    {
-      "name": "ecs.capability.secrets.asm.environment-variables"
-    }
-  ],
-  "requiresCompatibilities": [
-    "FARGATE"
-  ],
-  "revision": 1,
-  "runtimePlatform": {
-    "cpuArchitecture": "X86_64",
-    "operatingSystemFamily": "LINUX"
-  },
-  "status": "ACTIVE",
-  "taskDefinitionArn": "arn:aws:ecs:eu-north-1:399016860398:task-definition/docragchatltd:1",
-  "taskRoleArn": "arn:aws:iam::399016860398:role/ECStaskexecutioner",
-  "volumes": [],
-  "tags": []
+  ]
 }
